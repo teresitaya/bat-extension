@@ -598,12 +598,24 @@ video {
   justify-content: flex-start;
 }
 
+.gap-1 {
+  gap: 0.25rem;
+}
+
 .gap-2 {
   gap: 0.5rem;
 }
 
 .gap-4 {
   gap: 1rem;
+}
+
+.border-b {
+  border-bottom-width: 1px;
+}
+
+.border-slate-700\/60 {
+  border-color: rgb(51 65 85 / 0.6);
 }
 
 .bg-zinc-800 {

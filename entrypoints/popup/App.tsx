@@ -79,21 +79,33 @@ function App() {
                 <ul>
                   {directives
                     .sort((a, b) => b.riskScore - a.riskScore)
-                    .map((directive) => (
-                      <li key={directive.name} className="flex flex-col gap-2 mb-2">
-                        <span className="text-lg font-medium underline">{directive.name}</span>
+                    .map((directive, index) => (
+                      <li key={directive.name} className={`flex flex-col gap-2 mb-4 ${index < directives.length - 1 ?  "border-b border-slate-700/60" : "" }`}>
+                         <div className="flex gap-1">
+                        <strong>Directive:</strong>
                         <span>
-                          <strong>Issue:</strong>
-                          {directive.technicalExplanation}
+                        {directive.name}
                         </span>
+                        </div>
+                        <div className="flex flex-col gap-1">
+                        <strong>Issue:</strong>
                         <span>
-                          <strong>Explanation:</strong>
-                          {directive.explanation}
+                        {directive.technicalExplanation}
                         </span>
+                        </div>
+                        <div className="flex flex-col gap-1">
+                        <strong>Explanation:</strong>
                         <span>
-                          <strong>Recommendation:</strong>{" "}
+                         {directive.explanation}
+                       </span>
+                        </div>
+                        <div className="flex flex-col gap-1 mb-2">
+                        <strong>Recommendation:</strong>
+                        <span>
                           {directive.recommended.join(", ")}
                         </span>
+                        </div>
+                        
                       </li>
                     ))}
                 </ul>
@@ -102,6 +114,48 @@ function App() {
           </ul>
         </div>
         <div className="flex flex-col py-2 w-full">
+  <h2 className="text-2xl font-medium">Permission Policy</h2>
+  <ul>
+    {Object.keys(permissionPolicy).length === 0 ? (
+      <div className="bg-zinc-800 p-2 mb-4">
+        <span className="text-red-500 font-semibold">No Permission Policy Found</span>
+      </div>
+    ) : (
+      Object.entries(permissionPolicy).map(([riskLevel, directives]) => (
+        <li key={riskLevel} className="bg-zinc-800 p-2 mb-4">
+          <h3 className={`text-xl font-medium mt-4 mb-2 ${riskLevel === "High" ? "text-red-500" : riskLevel === "Medium" ? "text-orange-500" : "text-green-500"}`}>
+            {riskLevel} Risk
+          </h3>
+          <ul>
+            {directives
+              .sort((a, b) => b.riskScore - a.riskScore)
+              .map((directive, index) => (
+                <li key={directive.name} className={`flex flex-col gap-2 mb-4 ${index < directives.length - 1 ? "border-b border-slate-700/60" : ""}`}>
+                  <div className="flex gap-1">
+                    <strong>Directive:</strong>
+                    <span>{directive.name}</span>
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <strong>Issue:</strong>
+                    <span>{directive.technicalExplanation}</span>
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <strong>Explanation:</strong>
+                    <span>{directive.explanation}</span>
+                  </div>
+                  <div className="flex flex-col gap-1 mb-2">
+                    <strong>Recommendation:</strong>
+                    <span>{directive.recommended.join(", ")}</span>
+                  </div>
+                </li>
+              ))}
+          </ul>
+        </li>
+      ))
+    )}
+  </ul>
+</div>
+       {/*  <div className="flex flex-col py-2 w-full">
           <h2 className="text-2xl font-medium">Permission Policy</h2>
           <ul>
   {Object.keys(permissionPolicy).length === 0 ? (
@@ -137,7 +191,7 @@ function App() {
     ))
   )}
 </ul>
-        </div>
+        </div> */}
       </div>
     </>
   );
