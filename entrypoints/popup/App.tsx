@@ -83,7 +83,7 @@ function App() {
                       <li key={directive.name} className="flex flex-col gap-2 mb-2">
                         <span className="text-lg font-medium underline">{directive.name}</span>
                         <span>
-                          <strong>Technical Explanation:</strong>
+                          <strong>Issue:</strong>
                           {directive.technicalExplanation}
                         </span>
                         <span>
@@ -122,7 +122,7 @@ function App() {
               <li key={directive.name} className="flex flex-col gap-2 mb-2">
                 <span className="text-lg font-medium underline">{directive.name}</span>
                 <span>
-                  <strong>Technical Explanation:</strong> {directive.technicalExplanation}
+                  <strong>Issue:</strong> {directive.technicalExplanation}
                 </span>
                 <span>
                   <strong>Explanation:</strong> {directive.explanation}

@@ -3,11 +3,11 @@ import { defineConfig } from "wxt";
 // See https://wxt.dev/api/config.html
 export default defineConfig({
   manifest: {
-    name: "BAT Extension",
-    description: "BAT Extension",
+    name: "RPX Extension",
+    description: "RPX Extension",
     version: "0.0.1",
     action: {
-      default_title: "BAT Extension",
+      default_title: "RPX Extension",
     },
     web_accessible_resources: [
       {
@@ -20,11 +20,7 @@ export default defineConfig({
       "tabs",
       "activeTab",
       "scripting",
-      "declarativeNetRequest",
-      "declarativeNetRequestWithHostAccess",
       "webRequest",
-      "webRequestBlocking",
-      "contentSettings"
     ],
     host_permissions: [
       "https:/\/*/*",
