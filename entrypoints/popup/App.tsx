@@ -2,10 +2,11 @@ import { CspDirective, StorageKey } from '@/src/dto';
 import StorageHelper from '@/src/helpers/StorageHelper';
 import React, { useEffect, useState } from 'react';
 import { PermissionPolicy } from '../../src/dto/permission-policy';
+import { AppData } from '../../src/dto';
 
 
 function App() {
-  const [siteName, setSiteName] = useState("");
+  const [appInfo, setAppInfo] = useState<AppData|null>();
 
   const [cspDirectives, setCspDirectives] = useState<Record<number, CspDirective[]>>({});
 
@@ -32,13 +33,23 @@ function App() {
         return acc;
       }, {} as Record<number, PermissionPolicy[]>);
       setPermissionPolicy(groupByPermissionPolicy);
+
+      const appInfo = await StorageHelper.get<AppData>(`local:${StorageKey.APP_DATA}`);
+      setAppInfo(appInfo);
+
     };
     getPageInfo();
   }, []);
 
   return (
     <>
-      <div className="text-2xl text-red-500 font-medium">App name : {siteName}</div>
+      <div className="flex items-center justify-start gap-2">
+        <h2 className="text-2xl text-red-500 font-medium">
+        App name : {appInfo?.name}
+        </h2>
+        <img className='w-12 h-12' src={appInfo?.icon} alt='favicon'></img>
+      
+      </div>
      
       <ul>
   CSP:

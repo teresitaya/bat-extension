@@ -1,6 +1,6 @@
 import StorageHelper from "@/src/helpers/StorageHelper";
 import saasService from "../src/services/saas.service";
-import { StorageKey } from "../src/dto";
+import { AppData, StorageKey } from "../src/dto";
 
 export default defineBackground(() => {
   browser.runtime.onInstalled.addListener(() => {
@@ -14,16 +14,14 @@ export default defineBackground(() => {
 
 
   browser.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
-    console.log('Tab updated', tabId, changeInfo, tab);
-    const injectionResults = await browser.scripting.executeScript({
-      target: { tabId: tabId, allFrames: false },
-      func: checkMetaTag,
-    });
-
-    for (const frameResult of injectionResults) {
-     console.log('Frame result', frameResult);
-  }
-  
+    if(tab && changeInfo.status && changeInfo.status === 'loading'){
+      const appInfo: AppData = {
+        name: tab.title || '',
+        icon:tab.favIconUrl || ''
+      };
+      StorageHelper.set(`local:${StorageKey.APP_DATA}`, appInfo);
+      console.log('APP_DATA', appInfo);
+    }
   });
 
   browser.webRequest.onBeforeSendHeaders.addListener(
@@ -85,10 +83,7 @@ export default defineBackground(() => {
           }
           if(details.responseHeaders[i].name.toLowerCase().includes('x-xss-protection')){
             console.log('x-xss-protection', details.responseHeaders[i].value);
-          }
-          if(whitelist.includes(details.responseHeaders[i].name)){
-            console.log('SaaS Custom Headers', details.responseHeaders[i].name, details.responseHeaders[i].value);
-          } */
+          }*/
       }
     }
     },
@@ -96,54 +91,5 @@ export default defineBackground(() => {
     ["responseHeaders"]
   );
 
-  async function checkMetaTag() {
-    const metaTagType = document.querySelector('meta[property="og:type"][content="article"]');
-    const metaTagTitle = document.querySelector('meta[property="og:title"]') as HTMLMetaElement;
-    const titleContent = metaTagTitle ? metaTagTitle.content : '';
-    const metaTags = Array.from(document.getElementsByTagName('meta')).map(tag => {
-      return {
-        name: tag.name,
-        content: tag.content,
-      };
-    });
-    const links = Array.from(document.getElementsByTagName('link')).map(link => {
-      return {
-        rel: link.rel,
-        href: link.href,
-      };
-    });
-    const scripts = Array.from(document.getElementsByTagName('script'))
-    const isAPwa = links.some(link => link.rel === 'manifest');
-
-    const body = document.body;
-    return {
-      isDocument: metaTagType !== null,
-      titleContent: titleContent,
-      isAPwa: isAPwa,
-      head: {
-        metaTags,
-        links,
-        scripts
-      },
-      body: {
-        iframes: Array.from(body.getElementsByTagName('iframe')).map(iframe => {
-          return {
-            src: iframe.src,
-          };
-        }, []).filter(iframe => iframe.src),
-        images: Array.from(body.getElementsByTagName('img')).map(img => {
-          return {
-            src: img.src,
-          };
-        }),
-        links: Array.from(body.getElementsByTagName('a')).map(a => {
-          return {
-            href: a.href,
-            text: a.text,
-          };
-        }),
-      }
-    };
-  }
 
 });

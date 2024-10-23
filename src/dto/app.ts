@@ -1,7 +1,7 @@
 import { RiskLevel } from ".";
 
-export type App = {
+export type AppData = {
     name: string;
     icon: string;
-    riskLevel: RiskLevel
+    riskLevel?: RiskLevel
 }
