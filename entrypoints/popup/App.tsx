@@ -1,20 +1,26 @@
-import { CspDirective, StorageKey } from '@/src/dto';
-import StorageHelper from '@/src/helpers/StorageHelper';
-import React, { useEffect, useState } from 'react';
-import { PermissionPolicy } from '../../src/dto/permission-policy';
-import { AppData } from '../../src/dto';
-
+import { CspDirective, StorageKey } from "@/src/dto";
+import StorageHelper from "@/src/helpers/StorageHelper";
+import React, { useEffect, useState } from "react";
+import { PermissionPolicy } from "../../src/dto/permission-policy";
+import { AppData } from "../../src/dto";
 
 function App() {
-  const [appInfo, setAppInfo] = useState<AppData|null>();
+  const [appInfo, setAppInfo] = useState<AppData | null>();
 
-  const [cspDirectives, setCspDirectives] = useState<Record<number, CspDirective[]>>({});
+  const [cspDirectives, setCspDirectives] = useState<
+    Record<number, CspDirective[]>
+  >({});
 
-  const [permissionPolicy, setPermissionPolicy] = useState<Record<number, PermissionPolicy[]>>({});
+  const [permissionPolicy, setPermissionPolicy] = useState<
+    Record<number, PermissionPolicy[]>
+  >({});
 
   useEffect(() => {
     const getPageInfo = async () => {
-      const cspDirectives = await StorageHelper.get<CspDirective[]>(`local:${StorageKey.CSP_DIRECTIVES}`) || [];
+      const cspDirectives =
+        (await StorageHelper.get<CspDirective[]>(
+          `local:${StorageKey.CSP_DIRECTIVES}`
+        )) || [];
       const groupByRiskLevel = cspDirectives.reduce((acc, directive: any) => {
         if (!acc[directive.riskLevel]) {
           acc[directive.riskLevel] = [];
@@ -24,87 +30,104 @@ function App() {
       }, {} as Record<number, CspDirective[]>);
       setCspDirectives(groupByRiskLevel);
 
-      const permissionPolicy = await StorageHelper.get<PermissionPolicy[]>(`local:${StorageKey.PERMISSIONS_DIRECTIVES}`) || [];
-      const groupByPermissionPolicy = permissionPolicy.reduce((acc, directive: any) => {
-        if (!acc[directive.riskLevel]) {
-          acc[directive.riskLevel] = [];
-        }
-        acc[directive.riskLevel].push(directive);
-        return acc;
-      }, {} as Record<number, PermissionPolicy[]>);
+      const permissionPolicy =
+        (await StorageHelper.get<PermissionPolicy[]>(
+          `local:${StorageKey.PERMISSIONS_DIRECTIVES}`
+        )) || [];
+      const groupByPermissionPolicy = permissionPolicy.reduce(
+        (acc, directive: any) => {
+          if (!acc[directive.riskLevel]) {
+            acc[directive.riskLevel] = [];
+          }
+          acc[directive.riskLevel].push(directive);
+          return acc;
+        },
+        {} as Record<number, PermissionPolicy[]>
+      );
       setPermissionPolicy(groupByPermissionPolicy);
 
-      const appInfo = await StorageHelper.get<AppData>(`local:${StorageKey.APP_DATA}`);
+      const appInfo = await StorageHelper.get<AppData>(
+        `local:${StorageKey.APP_DATA}`
+      );
       setAppInfo(appInfo);
-
     };
     getPageInfo();
   }, []);
 
   return (
     <>
-      <div className="flex items-center justify-start gap-2">
-        <h2 className="text-2xl text-red-500 font-medium">
-        App name : {appInfo?.name}
-        </h2>
-        <img className='w-12 h-12' src={appInfo?.icon} alt='favicon'></img>
-      
-      </div>
-     
-      <ul>
-  CSP:
-  {Object.entries(cspDirectives).map(([riskLevel, directives]) => (
-    <li key={riskLevel}>
-      <h3>Risk Level: {riskLevel}</h3>
-      <ul>
-        {directives
-          .sort((a, b) => b.riskScore - a.riskScore)
-          .map((directive) => (
-            <li key={directive.name} style={{ marginBottom: '10px', display: 'flex', flexDirection: 'column', gap: '5px' }}>
-              <span>
-                {directive.name}: {directive.riskScore}
-              </span>
-              <span>
-                {directive.technicalExplanation}
-              </span>
-              <span>
-                {directive.explanation}
-              </span>
-              <span>
-                {directive.recommended.join(", ")}
-              </span>
-            </li>
-          ))}
-      </ul>
-    </li>
-  ))}
-</ul>
-<ul>
-  Permission Policy:
+      <div className="flex flex-col items-start justify-start p-6 gap-4">
+        <div className="flex items-center justify-start gap-2">
+          <img className="w-12 h-12" src={appInfo?.icon} alt="favicon"></img>
+          <h2 className="text-2xl font-medium">{appInfo?.name}</h2>
+        </div>
+
+        <div className="flex flex-col py-2">
+          <h2 className="text-2xl font-medium">CSP</h2>
+          <ul>
+            {
+            Object.keys(cspDirectives).length === 0 ?
+            <div className="bg-zinc-800 p-2 mb-4">
+            <span className="text-red-500 font-semibold">No CSP Directives Found</span>
+          </div>
+            :
+            Object.entries(cspDirectives).map(([riskLevel, directives]) => (
+              <li key={riskLevel} className="bg-zinc-800 p-2 mb-4">
+                <h3 className={`text-xl font-medium mt-4 mb-2 ${riskLevel === "High" ? "text-red-500" : riskLevel === "Medium" ?  "text-orange-500": "text-green-500"}`}>
+                    {riskLevel} Risk
+                </h3>
+                <ul>
+                  {directives
+                    .sort((a, b) => b.riskScore - a.riskScore)
+                    .map((directive) => (
+                      <li key={directive.name} className="flex flex-col gap-2 mb-2">
+                        <span className="text-lg font-medium underline">{directive.name}</span>
+                        <span>
+                          <strong>Technical Explanation:</strong>
+                          {directive.technicalExplanation}
+                        </span>
+                        <span>
+                          <strong>Explanation:</strong>
+                          {directive.explanation}
+                        </span>
+                        <span>
+                          <strong>Recommendation:</strong>{" "}
+                          {directive.recommended.join(", ")}
+                        </span>
+                      </li>
+                    ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="flex flex-col py-2 w-full">
+          <h2 className="text-2xl font-medium">Permission Policy</h2>
+          <ul>
   {Object.keys(permissionPolicy).length === 0 ? (
-    <div>
-      No Permissions Policy Directives Found
+    <div className="bg-zinc-800 p-2 mb-4">
+      <span className="text-red-500 font-semibold">No Permissions Policy Directives Found</span>
     </div>
   ) : (
     Object.entries(permissionPolicy).map(([riskLevel, directives]) => (
-      <li key={riskLevel}>
-        <h3>Risk Level: {riskLevel}</h3>
+      <li key={riskLevel} className="bg-zinc-800 p-2 mb-4">
+        <h3 className={`text-xl font-medium mt-4 mb-2 ${riskLevel === "High" ? "text-red-500" : riskLevel === "Medium" ? "text-orange-500" : "text-green-500"}`}>
+          {riskLevel} Risk
+        </h3>
         <ul>
           {directives
             .sort((a, b) => b.riskScore - a.riskScore)
             .map((directive) => (
-              <li key={directive.name} style={{ marginBottom: '10px', display: 'flex', flexDirection: 'column', gap: '5px' }}>
+              <li key={directive.name} className="flex flex-col gap-2 mb-2">
+                <span className="text-lg font-medium underline">{directive.name}</span>
                 <span>
-                  {directive.name}: {directive.riskScore}
+                  <strong>Technical Explanation:</strong> {directive.technicalExplanation}
                 </span>
                 <span>
-                {directive.technicalExplanation}
-              </span>
-                <span>
-                  {directive.explanation}
+                  <strong>Explanation:</strong> {directive.explanation}
                 </span>
                 <span>
-                  {directive.recommended.join(", ")}
+                  <strong>Recommendation:</strong> {directive.recommended.join(", ")}
                 </span>
               </li>
             ))}
@@ -113,6 +136,8 @@ function App() {
     ))
   )}
 </ul>
+        </div>
+      </div>
     </>
   );
 }
