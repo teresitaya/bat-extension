@@ -20,9 +20,12 @@ class SaasService {
           v.indexOf(DirectiveValue.UNSAFE_INLINE) > -1 ||
             v.indexOf(DirectiveValue.UNSAFE_EVAL) > -1
         ) {
+          const valueOf = v.indexOf(DirectiveValue.UNSAFE_INLINE) > -1 ? DirectiveValue.UNSAFE_INLINE: DirectiveValue.UNSAFE_EVAL;
           found.value = [];
+          found.technicalExplanation = `Usage of ${valueOf} on ${found.name}`;
+          (found as any).recommended=[`Remove ${valueOf} from your source code.`];
         } else {
-          if (found.recommended.includes(v as any)) {
+          if (found.recommended.includes(v as any) && v.indexOf('*') === -1) {
             {
               found.value.push(v as any);
             }
@@ -31,9 +34,16 @@ class SaasService {
                 found.value.push(value as any);
               }
             });
+          }else {
+            found.value = [];
+            found.technicalExplanation = `Usage of wildcards on ${found.name}`;
+            (found as any).recommended=[`For sensitive resources, explicitly define the full paths.`];
           }
         }
       }
+
+      
+
     });
     return found;
   }

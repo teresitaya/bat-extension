@@ -54,6 +54,9 @@ function App() {
                 {directive.name}: {directive.riskScore}
               </span>
               <span>
+                {directive.technicalExplanation}
+              </span>
+              <span>
                 {directive.explanation}
               </span>
               <span>
@@ -83,6 +86,9 @@ function App() {
                 <span>
                   {directive.name}: {directive.riskScore}
                 </span>
+                <span>
+                {directive.technicalExplanation}
+              </span>
                 <span>
                   {directive.explanation}
                 </span>
