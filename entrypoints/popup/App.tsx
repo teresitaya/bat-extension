@@ -63,12 +63,12 @@ function App() {
         </div>
 
         <div className="flex flex-col py-2">
-          <h2 className="text-2xl font-medium">CSP</h2>
+          <h2 className="text-2xl font-medium">Content Security Policy</h2>
           <ul>
             {
             Object.keys(cspDirectives).length === 0 ?
             <div className="bg-zinc-800 p-2 mb-4">
-            <span className="text-red-500 font-semibold">No CSP Directives Found</span>
+            <span className="text-red-500 font-semibold">No Content Security Policy Found</span>
           </div>
             :
             Object.entries(cspDirectives).map(([riskLevel, directives]) => (
@@ -106,7 +106,8 @@ function App() {
           <ul>
   {Object.keys(permissionPolicy).length === 0 ? (
     <div className="bg-zinc-800 p-2 mb-4">
-      <span className="text-red-500 font-semibold">No Permissions Policy Directives Found</span>
+      <span className="text-red-500 font-semibold">No Permission Policy Found
+    </span>
     </div>
   ) : (
     Object.entries(permissionPolicy).map(([riskLevel, directives]) => (
