@@ -38,7 +38,6 @@ export default defineBackground(() => {
 
   browser.webRequest.onHeadersReceived.addListener(
     (details) => {
-      //const whitelist= ['X-Dropbox-allowed-Team-Ids', "x-dropbox-response-origin", 'x-dropbox-response-origin', 'X-GooGApps-Allowed-Domains', 'Restrict-Access-To-Tenants', 'Restrict-Access-Context', 'YouTube-Restrict'];
       const isUrlValid = !details.url.startsWith("chrome://") && !details.url.startsWith("chrome-extension://");
       if (details.type !== "main_frame" || !isUrlValid) return;
       console.log('onHeadersReceived', details);

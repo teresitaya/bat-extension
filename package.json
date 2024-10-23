@@ -12,7 +12,8 @@
     "zip": "wxt zip",
     "zip:firefox": "wxt zip -b firefox",
     "compile": "tsc --noEmit",
-    "postinstall": "wxt prepare"
+    "postinstall": "wxt prepare",
+    "tailwindcss": "npx tailwindcss -i ./assets/tailwind.css -o ./assets/tailwind-prod.css"
   },
   "dependencies": {
     "react": "^18.3.1",
@@ -22,6 +23,7 @@
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@wxt-dev/module-react": "^1.1.0",
+    "tailwindcss": "^3.4.14",
     "typescript": "^5.5.4",
     "wxt": "^0.19.1"
   }

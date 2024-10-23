@@ -38,7 +38,7 @@ function App() {
 
   return (
     <>
-      <div className="card">App name : {siteName}</div>
+      <div className="text-2xl text-red-500 font-medium">App name : {siteName}</div>
      
       <ul>
   CSP:
