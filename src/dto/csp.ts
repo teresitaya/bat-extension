@@ -105,6 +105,19 @@ export const CspDirectives: CspDirective[] = [
       "Enables proactive monitoring and reporting for potential issues.",
   },
   {
+    name: "report-uri",
+    description: "Specifies the reporting endpoint for CSP violations",
+    value: [],
+    recommended: [DirectiveValue.SELF, DirectiveValue.HTTPS_DOMAIN],
+    riskLevel: RiskLevel.LOW,
+    riskScore: 3,
+    explanation:
+      "Helps monitor CSP violations, though it doesn’t directly enhance security.",
+    technicalExplanation:
+      "Enables proactive monitoring and reporting for potential issues.",
+      deprecated: true
+  },
+  {
     name: "require-trusted-types-for",
     description: "Enforces Trusted Types for specific functions (experimental)",
     value: [],
