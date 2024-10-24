@@ -155,43 +155,6 @@ function App() {
     )}
   </ul>
 </div>
-       {/*  <div className="flex flex-col py-2 w-full">
-          <h2 className="text-2xl font-medium">Permission Policy</h2>
-          <ul>
-  {Object.keys(permissionPolicy).length === 0 ? (
-    <div className="bg-zinc-800 p-2 mb-4">
-      <span className="text-red-500 font-semibold">No Permission Policy Found
-    </span>
-    </div>
-  ) : (
-    Object.entries(permissionPolicy).map(([riskLevel, directives]) => (
-      <li key={riskLevel} className="bg-zinc-800 p-2 mb-4">
-        <h3 className={`text-xl font-medium mt-4 mb-2 ${riskLevel === "High" ? "text-red-500" : riskLevel === "Medium" ? "text-orange-500" : "text-green-500"}`}>
-          {riskLevel} Risk
-        </h3>
-        <ul>
-          {directives
-            .sort((a, b) => b.riskScore - a.riskScore)
-            .map((directive) => (
-              <li key={directive.name} className="flex flex-col gap-2 mb-2">
-                <span className="text-lg font-medium underline">{directive.name}</span>
-                <span>
-                  <strong>Issue:</strong> {directive.technicalExplanation}
-                </span>
-                <span>
-                  <strong>Explanation:</strong> {directive.explanation}
-                </span>
-                <span>
-                  <strong>Recommendation:</strong> {directive.recommended.join(", ")}
-                </span>
-              </li>
-            ))}
-        </ul>
-      </li>
-    ))
-  )}
-</ul>
-        </div> */}
       </div>
     </>
   );
