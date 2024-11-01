@@ -15,8 +15,11 @@ class SaasService {
     if (v === DirectiveValue.NONE) {
       found.value.push(v as any);
     }
+    // check for both unsafe-inline and unsafe-eval
     if (v.indexOf(DirectiveValue.UNSAFE_INLINE) > -1 || v.indexOf(DirectiveValue.UNSAFE_EVAL) > -1) {
-      const valueOf = v.indexOf(DirectiveValue.UNSAFE_INLINE) > -1 ? DirectiveValue.UNSAFE_INLINE: DirectiveValue.UNSAFE_EVAL;
+      const valueOf = v.indexOf(DirectiveValue.UNSAFE_INLINE) > -1 && v.indexOf(DirectiveValue.UNSAFE_EVAL) > -1
+      ? `${DirectiveValue.UNSAFE_INLINE} and ${DirectiveValue.UNSAFE_EVAL}` :
+      v.indexOf(DirectiveValue.UNSAFE_INLINE) > -1 ? DirectiveValue.UNSAFE_INLINE: DirectiveValue.UNSAFE_EVAL;
       found.value = [];
       found.technicalExplanation = `Usage of ${valueOf} on ${found.name}`;
       (found as any).recommended=[`Remove ${valueOf} from your source code.`];
