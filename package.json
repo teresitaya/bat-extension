@@ -7,10 +7,10 @@
   "scripts": {
     "dev": "wxt",
     "dev:chrome": "wxt -b chrome",
-    "build": "wxt build",
-    "build:firefox": "wxt build -b firefox",
-    "zip": "wxt zip",
-    "zip:firefox": "wxt zip -b firefox",
+    "build": "npm run tailwindcss && wxt build",
+    "build:firefox": "npm run tailwindcss && wxt build -b firefox",
+    "zip": "npm run tailwindcss && wxt zip",
+    "zip:firefox": "npm run tailwindcss && wxt zip -b firefox",
     "compile": "tsc --noEmit",
     "postinstall": "wxt prepare",
     "tailwindcss": "npx tailwindcss -i ./assets/tailwind.css -o ./assets/tailwind-prod.css"
