@@ -5,7 +5,7 @@ export default defineConfig({
   manifest: {
     name: "RPX Extension",
     description: "RPX Extension",
-    version: "0.0.1",
+    version: "0.0.2",
     action: {
       default_title: "RPX Extension",
     },
