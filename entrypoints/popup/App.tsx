@@ -131,14 +131,14 @@ function App() {
         <h2 className="text-2xl font-medium">Content Security Policy</h2>
         <ul>
           {Object.keys(cspDirectives).length === 0 ? (
-            <div className="dark:bg-zinc-800 bg-zinc-200 p-2 mb-4">
+            <div className="dark:bg-slate-800 bg-slate-200 p-2 mb-4 border dark:border-slate-700/60 border-slate-200 rounded-md">
               <span className="text-red-500 font-semibold">
                 No Content Security Policy Found
               </span>
             </div>
           ) : (
             Object.entries(cspDirectives).map(([riskLevel, directives]) => (
-              <li key={riskLevel} className="dark:bg-zinc-800 bg-zinc-200 p-2 mb-4">
+              <li key={riskLevel} className="dark:bg-slate-800 bg-slate-200 p-2 mb-4 rounded-md border dark:border-slate-700/60 border-slate-200">
                 <h3
                   className={`text-xl font-medium mt-4 mb-2 ${
                     riskLevel === "High"
@@ -190,14 +190,14 @@ function App() {
         <h2 className="text-2xl font-medium">Permission Policy</h2>
         <ul>
           {Object.keys(permissionPolicy).length === 0 ? (
-            <div className="dark:bg-zinc-800 bg-zinc-200 p-2 mb-4">
+            <div className="dark:bg-slate-800 bg-slate-200 p-2 mb-4 rounded-md border dark:border-slate-700/60 border-slate-200">
               <span className="text-red-500 font-semibold">
                 No Permission Policy Found
               </span>
             </div>
           ) : (
             Object.entries(permissionPolicy).map(([riskLevel, directives]) => (
-              <li key={riskLevel} className="dark:bg-zinc-800 bg-zinc-200 p-2 mb-4">
+              <li key={riskLevel} className="dark:bg-slate-800 bg-slate-200 p-2 mb-4 rounded-md border dark:border-slate-700/60 border-slate-200">
                 <h3
                   className={`text-xl font-medium mt-4 mb-2 ${
                     riskLevel === "High"
@@ -252,13 +252,13 @@ function App() {
         <img className="w-12 h-12" src={"favicon.ico"} alt="favicon"></img>
         <h2 className="text-2xl font-medium">RPX Extension</h2>
       </div>
-      <div className="flex flex-col gap-2 dark:bg-zinc-800 bg-zinc-200 p-2 mb-4 rounded-md border dark:border-slate-700/60 border-slate-200">
+      <div className="flex flex-col gap-2 dark:bg-slate-800 bg-slate-200 p-2 mb-4 rounded-md border dark:border-slate-700/60 border-slate-200">
         <p>
-          This extension is designed to help you identify the risks associated
+          This extension is designed to help you identify the Risks associated
           with the Content Security Policy (CSP) and Permission Policy of
           websites you visit.
         </p>
-        <span className="text-xs">
+        <span>
           Click on the extension icon to analyze the current website.
         </span>
       </div>
